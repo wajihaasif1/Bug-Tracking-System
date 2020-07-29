@@ -13,4 +13,22 @@
 		<%= link_to 'Edit', edit_project_path(@project) %> |
         <%= link_to 'Destroy', @project, method: :delete, data: { confirm: 'Are you sure?' } %> |
  		<%= link_to 'Back', projects_path %>
+ 		 <% @users.each do |user| %>
  		
+ 		 <%if user.developer? %>
+ 		 DEVELOPERS
+ 		 <br>
+ 		 <%=user.name%>
+ 		 <br>
+ 		<%end%>
+		
+		<br>
+ 		
+ 		<%if user.qa? %>
+ 		 QA
+ 		 <br>
+ 		 <%=user.name%>
+ 		 <br>
+ 		<%end%>
+ 		<%end%>
+ 		<%= link_to 'Bsssack', adduser_project_path %>

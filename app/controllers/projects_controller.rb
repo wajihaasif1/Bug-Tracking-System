@@ -12,8 +12,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-     #@project = Project.find(params[:id])
-  #@users =User.where.not(id: @project.users.ids)
+    #@project = Project.find(params[:id])
+  @users =User.where.not(id: @project.users.ids)
   #@project.users << @users
 
 end
@@ -77,10 +77,10 @@ end
 
 
     def adduser
-      # @project = Project.find(params[:id])
+       @project = Project.find(params[:id])
       # #@user= User.find(params[:user_id])
       # #logger.info "info{params[:user_id]}"
-      
+       @users =User.where.not(id: @project.users.ids)
       
       # @project.users << @users
    
