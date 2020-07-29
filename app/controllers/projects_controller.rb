@@ -36,8 +36,8 @@ end
   # POST /projects.json
   def create
   #@project = current_user.projects.new(project_params)
-  #@project = current_user.created_projects.build(project_params)
-  @project = current_user.build(project_params)
+  @project = current_user.created_projects.build(project_params)
+  #@project = current_user.build(project_params)
   #@project.user=current_user.id
   #@project = Project.new(project_params)
     respond_to do |format|
