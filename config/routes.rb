@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
+  root to: "projects#index"
+  devise_for :users
   
   resources :projects do
-   member do
-     put :add_user
-   end
-end
-  devise_for :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root to: "projects#index"
+   	 member do
+     	put :add_user
+  	 end
+  end
+
+  resources :bugs 
+   
+
 end

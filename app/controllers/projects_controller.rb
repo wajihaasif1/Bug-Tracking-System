@@ -80,8 +80,8 @@ end
       @project = Project.find(params[:id])
       @user= User.find(params[:user_id])
       @project.users << @user
-      redirect_to (request.referrer)
-       #redirect_to @project
+      #redirect_to (request.referrer)
+      redirect_to project_path(@project)
     end
   end
 
