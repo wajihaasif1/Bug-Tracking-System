@@ -13,9 +13,9 @@ class ProjectsController < ApplicationController
   # GET /projects/1.json
   def show
     #@project = Project.find(params[:id])
-  @users =User.where.not(id: @project.users.ids)
+  #@users =User.where.not(id: @project.users.ids)
   #@project.users << @users
-
+  @users=User.all
 end
 
   # GET /projects/new
@@ -76,14 +76,12 @@ end
 
 
 
-    def adduser
-       @project = Project.find(params[:id])
-      # #@user= User.find(params[:user_id])
-      # #logger.info "info{params[:user_id]}"
-       @users =User.where.not(id: @project.users.ids)
-      
-      # @project.users << @users
-   
+    def add_user
+      @project = Project.find(params[:id])
+      @user= User.find(params[:user_id])
+      @project.users << @user
+      redirect_to (request.referrer)
+       #redirect_to @project
     end
   end
 

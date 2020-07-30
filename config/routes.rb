@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   resources :projects do
    member do
-     get :adduser
+     put :add_user
    end
 end
   devise_for :users

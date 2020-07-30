@@ -18,7 +18,7 @@
  		 <%if user.developer? %>
  		 DEVELOPERS
  		 <br>
- 		 <%=user.name%>
+ 		 <%=user.name%> <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put %>
  		 <br>
  		<%end%>
 		
@@ -31,4 +31,4 @@
  		 <br>
  		<%end%>
  		<%end%>
- 		<%= link_to 'Bsssack', adduser_project_path %>
+ 		
