@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_140342) do
+ActiveRecord::Schema.define(version: 2020_07_30_071227) do
+
+  create_table "bugs", force: :cascade do |t|
+    t.string "title"
+    t.datetime "deadline"
+    t.string "screenshot"
+    t.string "type"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "project_id", null: false
+    t.integer "creator_id", null: false
+    t.integer "assign_to_id", null: false
+    t.index ["assign_to_id"], name: "index_bugs_on_assign_to_id"
+    t.index ["creator_id"], name: "index_bugs_on_creator_id"
+    t.index ["project_id"], name: "index_bugs_on_project_id"
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string "title"
@@ -44,6 +60,9 @@ ActiveRecord::Schema.define(version: 2020_07_29_140342) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bugs", "projects"
+  add_foreign_key "bugs", "users", column: "assign_to_id"
+  add_foreign_key "bugs", "users", column: "creator_id"
   add_foreign_key "projects", "users", column: "creator_id"
   add_foreign_key "user_projects", "projects"
   add_foreign_key "user_projects", "users"
