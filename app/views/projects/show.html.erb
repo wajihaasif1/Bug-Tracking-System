@@ -18,8 +18,13 @@
  		 <%if user.developer? %>
  		 DEVELOPERS
  		 <br>
- 		 <%=user.name%> <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put %>
+ 		 <%=user.name%> 
+ 		 <% if @project.users.exists? (user.id) %>
+ 		  <%= link_to 'Remove user', remove_user_project_path(@project, user_id:user.id), method: :delete, data: { confirm: 'Are you sure?' }  %>
  		 <br>
+ 		<% else %>
+ 		 <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put %>
+ 		<%end%> 
  		<%end%>
 		
 		<br>

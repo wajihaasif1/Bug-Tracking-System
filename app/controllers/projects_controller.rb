@@ -1,18 +1,22 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :add_user, :remove_user]
+  #before_action :authenticate_user!
+  append_before_action :authorize_project,  except: [:index, :new, :create]
+  #after_action :verify_policy_scope, only: :index
+
+
   # GET /projects
   # GET /projects.json
   
   def index
-    #@projects = policy_scope(Project)
-     @projects = Project.all
+    @projects = policy_scope(Project)
+     #@projects = Project.all
   end
 
   # GET /projects/1
   # GET /projects/1.json
   def show
-    #@project = Project.find(params[:id])
+  #@project = Project.find(params[:id])
   #@users =User.where.not(id: @project.users.ids)
   #@project.users << @users
   @users=User.all
@@ -26,6 +30,7 @@ end
     # format.html {redirect_to project_path}
     # format.js
   #end
+  authorize_project
   end
 
   # GET /projects/1/edit
@@ -40,6 +45,7 @@ end
   #@project = current_user.build(project_params)
   #@project.user=current_user.id
   #@project = Project.new(project_params)
+  authorize @project
     respond_to do |format|
         if @project.save
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
@@ -73,17 +79,24 @@ end
       format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
 
 
 
     def add_user
-      @project = Project.find(params[:id])
+      #@project = Project.find(params[:id])
       @user= User.find(params[:user_id])
       @project.users << @user
       #redirect_to (request.referrer)
-      redirect_to project_path(@project)
+      #authorize @project
     end
-  end
+  
+    def remove_user
+      @project = Project.find(params[:id])
+      @user= User.find(params[:user_id])
+      @project.users.destroy(@user)
+
+    end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -97,6 +110,13 @@ end
       params.require(:project).permit(:title, :description)
     end
     
+    def authorize_project
+     if @project.present?
+      authorize @project
+    else 
+      authorize Project
+    end
+end
   
 
 end
