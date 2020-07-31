@@ -11,6 +11,7 @@ class ProjectsController < ApplicationController
   def index
     @projects = policy_scope(Project)
      #@projects = Project.all
+
   end
 
   # GET /projects/1

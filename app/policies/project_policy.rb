@@ -5,14 +5,13 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-     (user.manager? && record.creator_id ==user.id) || !user.project.find_by(id: record.id).nil?
+
+     record.creator_id ==user.id
   end
-
-
 
   def update?
   	#byebug
-    user.manager? && record.creator_id ==user.id
+   record.creator_id ==user.id
   end
 
 
@@ -44,8 +43,11 @@ class ProjectPolicy < ApplicationPolicy
     def resolve
       if user.manager?
       	scope.where(creator_id: user.id)
-      else
-      	user.projects
+      elsif user.qa?
+      	scope.all
+      elsif user.developer?
+        scope= user.projects
+          
       end   
     end
   end
