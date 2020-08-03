@@ -1,7 +1,7 @@
 class BugsController < ApplicationController
 
 	before_action :set_bug, only: [:show, :edit, :update, :destroy]
-  	before_action :find_project
+  #before_action :find_project
   # GET /projects
   # GET /projects.json
   
@@ -29,7 +29,8 @@ class BugsController < ApplicationController
   @bug = current_user.created_bugs.build(bug_params)
     respond_to do |format|
         if @bug.save
-        format.html { redirect_to project_bugs_path(@project), notice: 'Bug was successfully created.' }
+       # format.html { redirect_to project_bugs_path(@project), notice: 'Bug was successfully created.' }
+        format.html { redirect_to @bug, notice: 'Bug was successfully created.' }
         
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class BugsController < ApplicationController
   def update
     respond_to do |format|
       if @bug.update(bug_params)
-        format.html { redirect_to project_bugs_path(@project), notice: 'Project was successfully updated.' }
+        format.html { redirect_to @bug, notice: 'bug was successfully updated.' }
         
       else
         format.html { render :edit }
@@ -54,9 +55,9 @@ class BugsController < ApplicationController
   
   def destroy
     @bug.destroy
-    # respond_to do |format|
-    #   format.html { redirect_to project_bugs_path(@project), notice: 'Project was successfully destroyed.' }
-    #   format.json { head :no_content }
+    respond_to do |format|
+      format.html { redirect_to bugs_url, notice: 'Project was successfully destroyed.' }
+      format.json { head :no_content }
     end
 
 

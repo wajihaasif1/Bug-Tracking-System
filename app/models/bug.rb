@@ -7,7 +7,7 @@ class Bug < ApplicationRecord
 	validates :title, presence: true, uniqueness: { scope: :project_id, case_sensitive: false }
 	validates :deadline, :type, :status, presence: true
 
-	validates :screenshot, content_type: ['image/png', 'image/gif'], 
-	dimension: { width: { min: 800, max: 2400 }, height: { min: 600, max: 1800 }, message: 'is not given between dimension' }
+	# validates :screenshot, content_type: ['image/png', 'image/gif'], 
+	# dimension: { width: { min: 800, max: 2400 }, height: { min: 600, max: 1800 }, message: 'is not given between dimension' }
 
 end
