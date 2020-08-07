@@ -1,16 +1,20 @@
+
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Btrack</title>
+    <title>Jquery UI Test</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+    <%= stylesheet_link_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/le-frog/jquery-ui.min.css' %>
+
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-      <% if user_signed_in? %>
+     <% if user_signed_in? %>
             <ul >
               <li><%= link_to "Submit Link", new_project_path %></li>
               <li><%= link_to "Account", edit_user_registration_path %></li>

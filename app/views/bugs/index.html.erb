@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 <% if user_signed_in? %>
 
-<h1>Projects</h1>
+<h1>Bugs</h1>
 
 <table>
   <thead>
@@ -17,14 +17,17 @@
   </thead>
 
   <tbody>
-    <% @projects.each do |project| %>
+    <% @bugs.each do |bug| %>
       <tr>
-        <td><%= project.title %></td>
-        <td><%= project.description %></td>
+        <td><%= bug.title %></td>
+        <td><%= bug.deadline %></td>
+        <td><%= bug.screenshot %></td>
+        <td><%= bug.type %></td>
+        <td><%= bug.status %></td>
         <td><%= link_to 'Show', project %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
         <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-
+        <td><%= link_to "Submit Link", new_bug_path %></td>
         
      </td>
         </tr>

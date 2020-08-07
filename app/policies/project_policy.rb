@@ -6,7 +6,7 @@ class ProjectPolicy < ApplicationPolicy
 
   def show?
 
-     record.creator_id ==user.id
+    record.creator_id ==user.id || user.qa?
   end
 
   def update?

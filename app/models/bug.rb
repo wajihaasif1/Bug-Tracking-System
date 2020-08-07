@@ -9,5 +9,5 @@ class Bug < ApplicationRecord
 
 	# validates :screenshot, content_type: ['image/png', 'image/gif'], 
 	# dimension: { width: { min: 800, max: 2400 }, height: { min: 600, max: 1800 }, message: 'is not given between dimension' }
-
+	mount_uploader :screenshot, ImageUploader
 end

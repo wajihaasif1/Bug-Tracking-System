@@ -36,4 +36,17 @@
  		 <br>
  		<%end%>
  		<%end%>
- 		
+
+
+ 		<h2 class="subtitle is-5">BUGS<strong><%= @roject.bugs.count %></strong> Bugs</h2>
+ 		<% if @project.bugs %>
+        <%= render @roject.bugs %>
+		<%else%>
+		<h2>no bugs rn</h2>
+        <%end%>
+        <div class="comment-form">
+            <hr />
+            <%if user.qa? %>
+            <h3 class="subtitle is-3">make a bug</h3>
+             <%= render 'comments/form' %>
+ 		<%end%>

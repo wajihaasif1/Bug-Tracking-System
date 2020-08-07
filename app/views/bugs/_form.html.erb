@@ -1,4 +1,8 @@
-<%= form_with(model: bug, local: true) do |form| %>
+
+<%= form_with(model: bug, local: true, :html => {:multipart => true}, [@post, @post.comments.build]) do |form| %>
+
+
+
   <% if bug.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
@@ -20,20 +24,47 @@
     <%= form.label :deadline %>
     <%= form.text_field :deadline, id: :project_deadline %>
   </div>
+
+
     <div class="field">
     <%= form.label :screenshot %>
-    <%= form.text_field :screenshot, id: :project_screenshot %>
+    <%= form.file_field :screenshot, id: :project_screenshot %>
   </div>
+
     <div class="field">
+      <% type=['Bug', 'Feature']  %>
     <%= form.label :type %>
-    <%= form.text_field :type, id: :project_type %>
+    <%= form.select :type, type, {}, id: :project_type, onchange: "myFunc();"%>
   </div>
+   
+<script type="text/javascript">
+  
+function myFunc() {
+  var series = [ ['New', 'Started' ,'Resolved'],['New', 'Started' ,'Completed']];
+  var x = document.getElementById("project_type").selectedIndex;
+  var option="";
+  var i;
+  for (i = 0; i < series[x].length; i++) {
+    option += '<option value="'+series[x][i]+'"'+'>'+series[x][i]+'</option>';
+  }
+  document.getElementById("project_status").innerHTML=option;
+}
+
+
+
+</script>
     <div class="field">
     <%= form.label :status %>
-    <%= form.text_field :status, id: :project_status %>
+    <%= form.select( :status, ['New', 'Started' ,'Resolved'], {}, id: :project_status) %>
   </div>
+
 
   <div class="actions">
     <%= form.submit %>
   </div>
+
+
+
+
 <% end %>
+
