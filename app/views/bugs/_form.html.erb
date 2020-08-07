@@ -1,19 +1,5 @@
+<%= form_with(model: [@project, @project.bugs.build], local: true, :html => {:multipart => true}) do |form| %>
 
-<%= form_with(model: bug, local: true, :html => {:multipart => true}, [@post, @post.comments.build]) do |form| %>
-
-
-
-  <% if bug.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
-
-      <ul>
-      <% bug.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="field">
     <%= form.label :title %>
@@ -33,8 +19,8 @@
 
     <div class="field">
       <% type=['Bug', 'Feature']  %>
-    <%= form.label :type %>
-    <%= form.select :type, type, {}, id: :project_type, onchange: "myFunc();"%>
+    <%= form.label :bug_type %>
+    <%= form.select :bug_type, type, {}, id: :project_type, onchange: "myFunc();"%>
   </div>
    
 <script type="text/javascript">
@@ -50,8 +36,6 @@ function myFunc() {
   document.getElementById("project_status").innerHTML=option;
 }
 
-
-
 </script>
     <div class="field">
     <%= form.label :status %>
@@ -62,7 +46,6 @@ function myFunc() {
   <div class="actions">
     <%= form.submit %>
   </div>
-
 
 
 

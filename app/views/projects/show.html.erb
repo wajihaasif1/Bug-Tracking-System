@@ -11,42 +11,45 @@
 </p>
 
 		<%= link_to 'Edit', edit_project_path(@project) %> |
-        <%= link_to 'Destroy', @project, method: :delete, data: { confirm: 'Are you sure?' } %> |
- 		<%= link_to 'Back', projects_path %>
+    <%= link_to 'Destroy', @project, method: :delete, data: { confirm: 'Are you sure?' } %> |
+ 		  <br><br><strong>DEVELOPERS:</strong>
  		 <% @users.each do |user| %>
+ 		   <%if user.developer? %>
+ 		       <%=user.name%> 
+ 		       <% if @project.users.exists? (user.id) %>
+ 		          <%= link_to 'Remove user', remove_user_project_path(@project, user_id:user.id), method: :delete, data: { confirm: 'Are you sure?' }  %>
+ 		         <br>
+ 		       <% else %>
+ 		          <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put %>
+ 		       <%end%> 
  		
- 		 <%if user.developer? %>
- 		 DEVELOPERS
- 		 <br>
- 		 <%=user.name%> 
- 		 <% if @project.users.exists? (user.id) %>
- 		  <%= link_to 'Remove user', remove_user_project_path(@project, user_id:user.id), method: :delete, data: { confirm: 'Are you sure?' }  %>
- 		 <br>
- 		<% else %>
- 		 <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put %>
- 		<%end%> 
- 		<%end%>
-		
-		<br>
- 		
- 		<%if user.qa? %>
- 		 QA
- 		 <br>
- 		 <%=user.name%>
- 		 <br>
- 		<%end%>
- 		<%end%>
-
-
- 		<h2 class="subtitle is-5">BUGS<strong><%= @roject.bugs.count %></strong> Bugs</h2>
- 		<% if @project.bugs %>
-        <%= render @roject.bugs %>
-		<%else%>
-		<h2>no bugs rn</h2>
         <%end%>
-        <div class="comment-form">
-            <hr />
-            <%if user.qa? %>
-            <h3 class="subtitle is-3">make a bug</h3>
-             <%= render 'comments/form' %>
+		
+		    <br>  
  		<%end%>
+     <strong>QA:</strong>
+    <% @users.each do |user| %>
+        <%if user.qa? %>
+          
+        <br>
+        <%=user.name%> 
+          <% if @project.users.exists? (user.id) %>
+           <%= link_to 'Remove user', remove_user_project_path(@project, user_id:user.id), method: :delete, data: { confirm: 'Are you sure?' }  %>
+           <br>
+         <% else %>
+            <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put %>
+          <%end%> 
+        <%end%>
+
+<%end%>
+ 		<br><br>
+    <strong>Toal bug in this Project: <%= @project.bugs.count %></strong>
+        <%= render @project.bugs %>
+        <div>
+          <hr />
+            <%if current_user.qa? || current_user.manager?%>
+            <h3 class="subtitle is-3">make a bug</h3>
+             <%= render 'bugs/form' %>
+
+ 		<% end -%>
+    <%= link_to 'Back', projects_path %>

@@ -10,21 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_30_071227) do
+ActiveRecord::Schema.define(version: 2020_08_07_092015) do
 
   create_table "bugs", force: :cascade do |t|
     t.string "title"
     t.datetime "deadline"
     t.string "screenshot"
-    t.string "type"
+    t.string "bug_type"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "project_id", null: false
-    t.integer "creator_id", null: false
-    t.integer "assign_to_id", null: false
-    t.index ["assign_to_id"], name: "index_bugs_on_assign_to_id"
-    t.index ["creator_id"], name: "index_bugs_on_creator_id"
+    t.integer "developer_assign_id", null: false
+    t.integer "creator_id"
+    t.index ["developer_assign_id"], name: "index_bugs_on_developer_assign_id"
     t.index ["project_id"], name: "index_bugs_on_project_id"
   end
 
@@ -61,8 +60,7 @@ ActiveRecord::Schema.define(version: 2020_07_30_071227) do
   end
 
   add_foreign_key "bugs", "projects"
-  add_foreign_key "bugs", "users", column: "assign_to_id"
-  add_foreign_key "bugs", "users", column: "creator_id"
+  add_foreign_key "bugs", "users", column: "developer_assign_id"
   add_foreign_key "projects", "users", column: "creator_id"
   add_foreign_key "user_projects", "projects"
   add_foreign_key "user_projects", "users"

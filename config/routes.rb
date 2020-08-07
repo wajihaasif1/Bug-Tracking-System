@@ -8,9 +8,10 @@ Rails.application.routes.draw do
      	put :add_user
      	delete :remove_user
   	 end
+  	 resources :bugs
   end
 
-  resources :bugs 
+
    
 
 end

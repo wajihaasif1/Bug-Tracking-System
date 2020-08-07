@@ -6,7 +6,6 @@ class BugsController < ApplicationController
   # GET /projects.json
   
   def index
-    #@projects = policy_scope(Project)
      @bug = Bug.all
   end
 
@@ -16,7 +15,7 @@ class BugsController < ApplicationController
 
   
   def new
-     @bug = current_user.created_bugs.build
+     @bug = @project.bugs.new
   end
 
   
@@ -25,10 +24,14 @@ class BugsController < ApplicationController
 
 
   def create
-  @project = Project.find(params[:project_id])
+  
+    @bug = @project.bugs.build(bug_params)
+    bug.creator_id=current_user
+    @bug.save
 
-  @bug = @project.bugs.build(bug_params)
-  redirect_to project_path(@project)
+    redirect_to project_path(@project)
+    #redirect_to root_path
+
   end
 
 
@@ -75,7 +78,7 @@ class BugsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bug_params
-      params.require(:bug).permit(:title, :deadline, :screenshot, :type, :status)
+      params.require(:bug).permit(:title, :deadline, :screenshot, :bug_type, :status)
     end
     
   
