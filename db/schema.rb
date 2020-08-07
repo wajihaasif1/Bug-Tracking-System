@@ -21,9 +21,7 @@ ActiveRecord::Schema.define(version: 2020_08_07_092015) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "project_id", null: false
-    t.integer "developer_assign_id", null: false
     t.integer "creator_id"
-    t.index ["developer_assign_id"], name: "index_bugs_on_developer_assign_id"
     t.index ["project_id"], name: "index_bugs_on_project_id"
   end
 
@@ -54,13 +52,12 @@ ActiveRecord::Schema.define(version: 2020_08_07_092015) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
-    t.integer "role"
+    t.integer "role", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "bugs", "projects"
-  add_foreign_key "bugs", "users", column: "developer_assign_id"
   add_foreign_key "projects", "users", column: "creator_id"
   add_foreign_key "user_projects", "projects"
   add_foreign_key "user_projects", "users"

@@ -44,12 +44,14 @@
 <%end%>
  		<br><br>
     <strong>Toal bug in this Project: <%= @project.bugs.count %></strong>
+         <%if current_user.qa? %>
         <%= render @project.bugs %>
         <div>
           <hr />
-            <%if current_user.qa? || current_user.manager?%>
+            
             <h3 class="subtitle is-3">make a bug</h3>
              <%= render 'bugs/form' %>
 
  		<% end -%>
+    <br>
     <%= link_to 'Back', projects_path %>

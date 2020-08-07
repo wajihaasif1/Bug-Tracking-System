@@ -2,33 +2,30 @@
 
 <p>
   <strong>Title:</strong>
-  <%= @bug.title %>
+  <%= bug.title %>
 </p>
 
 <p>
   <strong>Deadline:</strong>
-  <%= @bug.deadline %>
+  <%= bug.deadline %>
 </p>
 
-<p>
-  <strong>Screenshot:</strong>
-  <%= @bug.Screenshot %>
-</p>
+
 
 
 <p>
   <strong>Type:</strong>
-  <%= @bug.bug_type %>
+  <%= bug.bug_type %>
 </p>
 
 <p>
   <strong>Status:</strong>
-  <%= @bug.status %>
+  <%= bug.status %>
 </p>
 
 
-		<%= link_to 'Edit', edit_bug_path(@bug) %> |
-    <%= link_to 'Destroy', @bug, method: :delete, data: { confirm: 'Are you sure?' } %> |
- 		<%= link_to 'Back', bugs_path %>
+
+    <%= link_to 'Destroy', @bug, method: :delete, data: { confirm: 'Are you sure?' } %> 
+ 	
 
  		

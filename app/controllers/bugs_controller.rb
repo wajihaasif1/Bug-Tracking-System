@@ -26,7 +26,7 @@ class BugsController < ApplicationController
   def create
   
     @bug = @project.bugs.build(bug_params)
-    bug.creator_id=current_user
+    @bug.update(creator_id: current_user.id)
     @bug.save
 
     redirect_to project_path(@project)
