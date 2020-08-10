@@ -9,7 +9,7 @@
   <strong>Description:</strong>
   <%= @project.description %>
 </p>
-
+  <%if current_user.manager? %>
 		<%= link_to 'Edit', edit_project_path(@project) %> |
     <%= link_to 'Destroy', @project, method: :delete, data: { confirm: 'Are you sure?' } %> |
  		  <br><br><strong>DEVELOPERS:</strong>
@@ -40,18 +40,19 @@
             <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put %>
           <%end%> 
         <%end%>
-
+<%end%>
 <%end%>
  		<br><br>
     <strong>Toal bug in this Project: <%= @project.bugs.count %></strong>
-         <%if current_user.qa? %>
+         <%if current_user.qa? || current_user.developer? %>
         <%= render @project.bugs %>
         <div>
           <hr />
-            
+
+            <%if current_user.qa?%>
             <h3 class="subtitle is-3">make a bug</h3>
              <%= render 'bugs/form' %>
-
+<% end -%>
  		<% end -%>
     <br>
     <%= link_to 'Back', projects_path %>

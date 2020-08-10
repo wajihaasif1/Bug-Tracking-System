@@ -6,7 +6,7 @@ class ProjectPolicy < ApplicationPolicy
 
   def show?
 
-    record.creator_id ==user.id || user.qa?
+    (record.creator_id ==user.id) || (user.qa? )|| (user.developer?)
   end
 
   def update?
@@ -46,7 +46,7 @@ class ProjectPolicy < ApplicationPolicy
       elsif user.qa?
       	scope.all
       elsif user.developer?
-        scope= user.projects
+        scope = @user.projects
           
       end   
     end

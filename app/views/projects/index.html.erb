@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 <% if user_signed_in? %>
 
-<h1>Projects</h1>
+<h1 id="h1_index">All Projects</h1>
 
 <table>
   <thead>
@@ -14,15 +14,27 @@
 
   <tbody>
     <% @projects.each do |project| %>
+       <div class="project row clearfix">
+        <h2>
+          <%= link_to project.title, project%><br>
+          <small class="author">Submitted <%=time_ago_in_words(project.created_at) %> </small>
+          <br>
+          <small class="author">Total bugs in this project: <%= project.bugs.count%> </small>
+        </h2>
+        <div class="btn-group">
+
       <tr>
         <td><%= project.title %></td>
         <td><%= project.description %></td>
+        
         <td><%= link_to 'Show', project %></td>
+     
+        <%if current_user.manager? %>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
         <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <td>Total bugs<%= project.bugs.count %> </td>
 
-        
+        <%end%>
      </td>
         </tr>
     <% end %>

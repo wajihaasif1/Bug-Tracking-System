@@ -1,6 +1,6 @@
 class BugsController < ApplicationController
 
-	before_action :set_bug, only: [:show, :edit, :update, :destroy]
+	before_action :set_bug, only: [:show, :edit, :update, :destroy, :assign_dev, :started, :done]
   before_action :find_project
   # GET /projects
   # GET /projects.json
@@ -51,20 +51,35 @@ class BugsController < ApplicationController
   def destroy
     @bug.destroy
     respond_to do |format|
-      format.html { redirect_to project_url(@bug.project_id), notice: 'Project was successfully destroyed.' }
+      format.html { redirect_to project_url(@project), notice: 'bug was successfully destroyed.' }
       format.json { head :no_content }
     end
-
-
-
-    # def add_user
-    #   @project = Project.find(params[:id])
-    #   @user= User.find(params[:user_id])
-    #   @project.users << @user
-    #   redirect_to (request.referrer)
-    #    #redirect_to @project
-    # end
   end
+
+
+  def assign_dev
+    #byebug
+    @bug.update(developer_id: current_user.id)
+    
+    redirect_to project_path(@project)
+  end
+
+  def started
+   #byebug
+    @bug.update_attributes(status: 'Started')
+    redirect_to project_path(@project)
+  end
+
+
+    def done
+      if(@bug.bug_type=='Bug')
+        @bug.update_attributes(status: 'Resolved')
+      elsif(@bug.bug_type=='Feature')
+        @bug.update_attributes(status: 'Completed')
+      end
+
+      redirect_to project_path(@project)
+    end
 
   private
  
@@ -80,7 +95,4 @@ class BugsController < ApplicationController
     def bug_params
       params.require(:bug).permit(:title, :deadline, :screenshot, :bug_type, :status)
     end
-    
-  
-
 end

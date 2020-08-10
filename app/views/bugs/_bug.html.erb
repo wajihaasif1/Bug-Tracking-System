@@ -12,6 +12,12 @@
 
 
 
+<p>
+  <strong>Screenshot:</strong>
+<%= image_tag(bug.screenshot.url(:thumb), alt: 'Image') if bug.screenshot? %>
+
+</p>
+
 
 <p>
   <strong>Type:</strong>
@@ -22,10 +28,34 @@
   <strong>Status:</strong>
   <%= bug.status %>
 </p>
+  <%if current_user.qa?%>
+
+    <%= link_to 'Destroy', [bug.project, bug], method: :delete, data: { confirm: 'Are you sure?' } %> 
+    
+<% end -%>
 
 
+ <%if current_user.developer?%>
+     
+  <%= link_to 'Assign me', assign_dev_project_bug_path(@project, bug), method: :put  %>
 
-    <%= link_to 'Destroy', @bug, method: :delete, data: { confirm: 'Are you sure?' } %> 
- 	
 
- 		
+<% if bug.developer_id==current_user.id%>
+    <%if bug.status=='New' %>
+      <%= link_to 'Started', started_project_bug_path(@project, bug), method: :put  %>
+    <%end%>
+    
+    <%if bug.status=='Started' %>
+          
+
+          <%if bug.bug_type=='Bug' %>
+             <%= link_to 'Resolved', done_project_bug_path(@project, bug), method: :put  %>
+
+          <%elsif bug.bug_type=='Feature' %>
+             <%= link_to 'Completed', done_project_bug_path(@project, bug), method: :put  %>
+          
+          <%end%>
+ 
+  <%end%>
+<%end%>
+<%end%>

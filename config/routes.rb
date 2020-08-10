@@ -8,7 +8,13 @@ Rails.application.routes.draw do
      	put :add_user
      	delete :remove_user
   	 end
-  	 resources :bugs
+  	 resources :bugs do
+  	 	member do
+  	 		put :assign_dev
+        put :started
+        put :done
+  	 	end
+  	 end
   end
 
 

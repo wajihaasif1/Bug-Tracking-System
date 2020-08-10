@@ -21,3 +21,29 @@
  
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+
+
+#logo{
+	font-size: 26px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: -1px;
+	padding: 15px 0;
+	margin-left: -271px;
+
+	a{
+		color:#2F363C;
+	}
+}
+
+#content{
+	
+	margin-left: 119px;
+}
+
+#h1_index{
+    margin-left: -17px;
+text-transform: uppercase;
+color:#2F363C;
+ }
