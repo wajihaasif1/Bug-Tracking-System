@@ -61,3 +61,4 @@ gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
 gem 'jquery-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'mini_magick'
+

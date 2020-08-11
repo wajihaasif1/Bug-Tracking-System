@@ -1,61 +1,42 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= bug.title %>
-</p>
-
-<p>
-  <strong>Deadline:</strong>
-  <%= bug.deadline %>
-</p>
 
 
-
-<p>
-  <strong>Screenshot:</strong>
-<%= image_tag(bug.screenshot.url(:thumb), alt: 'Image') if bug.screenshot? %>
-
-</p>
-
-
-<p>
-  <strong>Type:</strong>
-  <%= bug.bug_type %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= bug.status %>
-</p>
-  <%if current_user.qa?%>
-
-    <%= link_to 'Destroy', [bug.project, bug], method: :delete, data: { confirm: 'Are you sure?' } %> 
+    <tr>
+      <td><%= bug.title %></td>
+      <td> <%= bug.deadline %></td>
+      <td><%= image_tag(bug.screenshot.url(:thumb), alt: 'Image') if bug.screenshot? %></td>
+      <td> <%= bug.bug_type %></td>
+      <td> <%= bug.status %></td>
     
-<% end -%>
-
-
- <%if current_user.developer?%>
+      <%if current_user.qa?%>
+         <td><%= link_to ' Show', project_bug_path(@project), class: "btn btn-info glyphicon glyphicon-eye-open" %> </td>
+        <td> <%= link_to ' Destroy', [bug.project, bug], method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger glyphicon glyphicon-remove "%> </td>
+      <% end -%>
+      
+      <%if current_user.developer?%>
      
-  <%= link_to 'Assign me', assign_dev_project_bug_path(@project, bug), method: :put  %>
+        <td>  <%= link_to 'Assign me', assign_dev_project_bug_path(@project, bug), method: :put  %></td>
 
 
-<% if bug.developer_id==current_user.id%>
-    <%if bug.status=='New' %>
-      <%= link_to 'Started', started_project_bug_path(@project, bug), method: :put  %>
-    <%end%>
+        <% if bug.developer_id==current_user.id%>
+           <%if bug.status=='New' %>
+              <td>  <%= link_to 'Started', started_project_bug_path(@project, bug), method: :put  %></td>
+           <%end%>
     
-    <%if bug.status=='Started' %>
-          
+          <%if bug.status=='Started' %>
+             <%if bug.bug_type=='Bug' %>
+                 <td><%= link_to 'Resolved', done_project_bug_path(@project, bug), method: :put  %></td>
 
-          <%if bug.bug_type=='Bug' %>
-             <%= link_to 'Resolved', done_project_bug_path(@project, bug), method: :put  %>
+              <%elsif bug.bug_type=='Feature' %>
+                 <td> <%= link_to 'Completed', done_project_bug_path(@project, bug), method: :put  %></td>
+              <%end%>
+           <%end%>
 
-          <%elsif bug.bug_type=='Feature' %>
-             <%= link_to 'Completed', done_project_bug_path(@project, bug), method: :put  %>
-          
-          <%end%>
- 
-  <%end%>
+          <%if bug.status=='Completed' || bug.status=='Resolved' %>
+              <td> Done project</td>
+           <%end%>
+     
 <%end%>
 <%end%>
+</tr>

@@ -10,6 +10,8 @@
     <%= stylesheet_link_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/le-frog/jquery-ui.min.css' %>
 
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    
   </head>
 
   <body>
@@ -23,7 +25,7 @@
               <ul class="nav navbar-nav navbar-right">
             <%if current_user.manager?%>
           
-              <li><%= link_to "Submit Link", new_project_path %></li>
+              <li><%= link_to "Submit New Link", new_project_path %></li>
               <%end%>
               <li><%= link_to "Account", edit_user_registration_path %></li>
              <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
@@ -41,6 +43,7 @@
       </div>
     </div>
   </header>
+
 <div id="content" class="col-md-9 center-block">
    <%= yield %>
  </div>

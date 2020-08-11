@@ -1,26 +1,26 @@
 <%= form_with(model: [@project, @project.bugs.build], local: true, :html => {:multipart => true}) do |form| %>
 
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :title %>
-    <%= form.text_field :title, id: :bug_title %>
+    <%= form.text_field :title, id: :bug_title , class: "form-control"%>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :deadline %>
-    <%= form.text_field :deadline, id: :project_deadline %>
+    <%= form.text_field :deadline, id: :project_deadline , class: "form-control"%>
   </div>
 
 
-    <div class="field">
+    <div class="form-group">
     <%= form.label :screenshot %>
-    <%= form.file_field :screenshot, id: :project_screenshot %>
+    <%= form.file_field :screenshot, id: :project_screenshot , class: "form-control"%>
   </div>
 
-    <div class="field">
+    <div class="form-group">
       <% type=['Bug', 'Feature']  %>
     <%= form.label :bug_type %>
-    <%= form.select :bug_type, type, {}, id: :project_type, onchange: "myFunc();"%>
+    <%= form.select :bug_type, type, {}, id: :project_type, class: "form-control", onchange: "myFunc();"%>
   </div>
    
 <script type="text/javascript">
@@ -37,14 +37,14 @@ function myFunc() {
 }
 
 </script>
-    <div class="field">
+    <div class="form-group">
     <%= form.label :status %>
-    <%= form.select( :status, ['New', 'Started' ,'Resolved'], {}, id: :project_status) %>
+    <%= form.select( :status, ['New', 'Started' ,'Resolved'], {}, class: "form-control", id: :project_status) %>
   </div>
 
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-group">
+    <%= form.submit class: "btn btn-success "%>
   </div>
 
 
