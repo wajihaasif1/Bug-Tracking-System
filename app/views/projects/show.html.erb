@@ -70,14 +70,15 @@
         <%if current_user.qa?%>
           <th scope="col" id="show5">SHOW</th>
           <th scope="col" id="show5">DESTROY</th>
-    
+          <th scope="col" id="show5">Created by</th>
         <% end -%>
         
         <%if current_user.developer?%>
-          <th scope="col" id="show5">ASSIGN/UNASSIGNED</th>
+         
+            <th scope="col" id="show5">ASSIGN/UNASSIGNED</th>
 
-          <th scope="col" id="show5">ACTION</th>
-    
+            <th scope="col" id="show5">ACTION</th>
+          
         <% end -%>
       </tr>
   </thead>

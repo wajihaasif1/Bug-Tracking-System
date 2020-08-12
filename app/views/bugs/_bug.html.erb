@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 
+       
 
     <tr>
       <td><%= bug.title %></td>
@@ -11,32 +12,44 @@
     
       <%if current_user.qa?%>
          <td><%= link_to ' Show', project_bug_path(@project), class: "btn btn-info glyphicon glyphicon-eye-open" %> </td>
-        <td> <%= link_to ' Destroy', [bug.project, bug], method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger glyphicon glyphicon-remove "%> </td>
+         <td> <%= link_to ' Destroy', [bug.project, bug], method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger glyphicon glyphicon-remove "%> </td>
+         <td><small>QA id: </small> <%= bug.creator_id %> </td>
       <% end -%>
       
       <%if current_user.developer?%>
-     
-        <td>  <%= link_to 'Assign me', assign_dev_project_bug_path(@project, bug), method: :put  %></td>
-
 
         <% if bug.developer_id==current_user.id%>
-           <%if bug.status=='New' %>
-              <td>  <%= link_to 'Started', started_project_bug_path(@project, bug), method: :put  %></td>
-           <%end%>
+
+          <td>  <%= link_to 'Unassign me', remove_dev_project_bug_path(@project, bug), method: :delete, data: { confirm: 'Are you sure?' } , class: "btn btn-danger" %></td>
+            
+
+            <%if bug.status=='New' %>
+                <td>  <%= link_to 'Started', started_project_bug_path(@project, bug), method: :put ,class: "btn btn-default"  %></td>
+            <%end%>
     
-          <%if bug.status=='Started' %>
-             <%if bug.bug_type=='Bug' %>
-                 <td><%= link_to 'Resolved', done_project_bug_path(@project, bug), method: :put  %></td>
+            <%if bug.status=='Started' %>
+              <%if bug.bug_type=='Bug' %>
+                 <td><%= link_to 'Resolved', done_project_bug_path(@project, bug), method: :put ,class: "btn btn-default"  %></td>
 
               <%elsif bug.bug_type=='Feature' %>
-                 <td> <%= link_to 'Completed', done_project_bug_path(@project, bug), method: :put  %></td>
+                 <td> <%= link_to 'Completed', done_project_bug_path(@project, bug), method: :put ,class: "btn btn-default"  %></td>
               <%end%>
            <%end%>
 
+          
           <%if bug.status=='Completed' || bug.status=='Resolved' %>
               <td> Done project</td>
+             
            <%end%>
+           
+           <%elsif (bug.developer_id==nil) %>
+            <td>  <%= link_to 'Assign me', assign_dev_project_bug_path(@project, bug), method: :put,  class: "btn btn-default"  %></td>
+           <td> N/A</td>
+          <%else%>
+            <td>  <small>Already Assigned</small></td>
+            <td> N/A</td>
      
 <%end%>
 <%end%>
 </tr>
+ 

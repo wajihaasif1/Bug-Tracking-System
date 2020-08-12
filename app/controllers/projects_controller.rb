@@ -88,7 +88,7 @@ end
       #@project = Project.find(params[:id])
       @user= User.find(params[:user_id])
       @project.users << @user
-      #redirect_to (request.referrer)
+      redirect_to (request.referrer)
       #authorize @project
     end
   
@@ -96,6 +96,7 @@ end
       @project = Project.find(params[:id])
       @user= User.find(params[:user_id])
       @project.users.destroy(@user)
+       redirect_to (request.referrer)
 
     end
 
@@ -112,12 +113,12 @@ end
     end
     
     def authorize_project
-     if @project.present?
-      authorize @project
-    else 
-      authorize Project
+       if @project.present?
+          authorize @project
+       else 
+          authorize Project
+      end
     end
-end
   
 
 end

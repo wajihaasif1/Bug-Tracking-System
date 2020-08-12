@@ -1,26 +1,28 @@
 class BugsController < ApplicationController
 
-	before_action :set_bug, only: [:show, :edit, :update, :destroy, :assign_dev, :started, :done]
+	before_action :set_bug, only: [:show, :edit, :update, :destroy, :assign_dev, :started, :done, :remove_dev]
   before_action :find_project
+  append_before_action :authorize_bug,  except: [:index, :new, :create]
+
   # GET /projects
   # GET /projects.json
   
   def index
-     @bug = Bug.all
+     #@bug = Bug.all
+      @bugs = policy_scope(Bug)
   end
 
 
   def show
+
   end
 
   
   def new
      @bug = @project.bugs.new
+     authorize_project
   end
 
-  
-  def edit
-  end
 
 
   def create
@@ -35,17 +37,17 @@ class BugsController < ApplicationController
   end
 
 
-  def update
-    respond_to do |format|
-      if @bug.update(bug_params)
-        format.html { redirect_to @bug, notice: 'bug was successfully updated.' }
+  # def update
+  #   respond_to do |format|
+  #     if @bug.update(bug_params)
+  #       format.html { redirect_to @bug, notice: 'bug was successfully updated.' }
         
-      else
-        format.html { render :edit }
-        format.json { render json: @bug.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  #     else
+  #       format.html { render :edit }
+  #       format.json { render json: @bug.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   
   def destroy
@@ -61,6 +63,13 @@ class BugsController < ApplicationController
     #byebug
     @bug.update(developer_id: current_user.id)
     
+    redirect_to project_path(@project)
+  end
+
+
+  def remove_dev
+    #byebug
+    @bug.update(developer_id: nil)
     redirect_to project_path(@project)
   end
 
@@ -95,4 +104,13 @@ class BugsController < ApplicationController
     def bug_params
       params.require(:bug).permit(:title, :deadline, :screenshot, :bug_type, :status)
     end
+
+    def authorize_bug
+       if @bug.present?
+          authorize @bug
+       else 
+          authorize Bug
+      end
+    end
+
 end

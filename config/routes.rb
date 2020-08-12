@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   	 resources :bugs do
   	 	member do
   	 		put :assign_dev
+        delete :remove_dev
         put :started
         put :done
   	 	end

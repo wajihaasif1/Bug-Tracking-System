@@ -6,7 +6,7 @@ class ProjectPolicy < ApplicationPolicy
 
   def show?
 
-    (record.creator_id ==user.id) || (user.qa? )|| (user.developer?)
+    (record.creator_id ==user.id) ||  ( ((user.qa? )|| (user.developer?)) && (user.projects.pluck(:id).include?(record.id)))
   end
 
   def update?

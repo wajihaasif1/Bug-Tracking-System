@@ -1,6 +1,7 @@
 <%= form_with(model: [@project, @project.bugs.build], local: true, :html => {:multipart => true}) do |form| %>
 
 
+
   <div class="form-group">
     <%= form.label :title %>
     <%= form.text_field :title, id: :bug_title , class: "form-control"%>
