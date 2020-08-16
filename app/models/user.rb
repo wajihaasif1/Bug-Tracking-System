@@ -5,14 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :user_projects
-  has_many :projects, through: :user_projects,  dependent: :destroy
-  has_many :created_projects, foreign_key: 'creator_id', class_name: 'Project', dependent: :destroy
-  #has_many :bugs, dependent: :destroy
-  has_many :created_bugs, foreign_key: 'creator_id', class_name: 'Bug', dependent: :destroy
-  has_many :assigned_bugs, foreign_key: 'developer_id', class_name: 'Bug', dependent: :destroy
+  has_many :projects, through: :user_projects, dependent: :destroy
+  has_many :created_projects, foreign_key: :creator_id, class_name: :Project, dependent: :destroy
 
-
+  has_many :created_bugs, foreign_key: :creator_id, class_name: :Bug, dependent: :destroy
+  has_many :assigned_bugs, foreign_key: :developer_id, class_name: :Bug, dependent: :destroy
 
   enum role: [:manager, :developer, :qa]
-
 end
