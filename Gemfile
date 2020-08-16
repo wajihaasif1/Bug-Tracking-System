@@ -61,3 +61,4 @@ gem 'jquery-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'mini_magick'
 gem 'pg', '~> 0.20.0'
+gem 'rubocop', '~> 0.74.0', require: false

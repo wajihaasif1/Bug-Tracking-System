@@ -6,7 +6,7 @@ class BugsController < ApplicationController
 
   # GET /projects
   # GET /projects.json
-  
+
   def index
      #@bug = Bug.all
       @bugs = policy_scope(Bug)
@@ -17,7 +17,7 @@ class BugsController < ApplicationController
 
   end
 
-  
+
   def new
      @bug = @project.bugs.new
      #authorize_bug
@@ -27,7 +27,7 @@ class BugsController < ApplicationController
 
   def create
 
-  
+
     @bug = @project.bugs.build(bug_params)
     #@bug.update(creator_id: current_user.id)
     @bug.creator_id= current_user.id
@@ -43,7 +43,7 @@ class BugsController < ApplicationController
   #   respond_to do |format|
   #     if @bug.update(bug_params)
   #       format.html { redirect_to @bug, notice: 'bug was successfully updated.' }
-        
+
   #     else
   #       format.html { render :edit }
   #       format.json { render json: @bug.errors, status: :unprocessable_entity }
@@ -51,7 +51,7 @@ class BugsController < ApplicationController
   #   end
   # end
 
-  
+
   def destroy
     @bug.destroy
     respond_to do |format|
@@ -62,21 +62,21 @@ class BugsController < ApplicationController
 
 
   def assign_dev
- 
+
     @bug.update!(developer_id: current_user.id)
-    
+
     redirect_to project_path(@project)
   end
 
 
   def remove_dev
-  
+
     @bug.update!(developer_id: nil)
     redirect_to project_path(@project)
   end
 
   def started
-  
+
     @bug.update_attributes(status: 'Started')
     redirect_to project_path(@project)
   end
@@ -93,11 +93,11 @@ class BugsController < ApplicationController
     end
 
   private
- 
+
   	def set_bug
       @bug = Bug.find(params[:id])
     end
-   
+
     def find_project
       @project = Project.find(params[:project_id])
     end
@@ -110,7 +110,7 @@ class BugsController < ApplicationController
     def authorize_bug
        if @bug.present?
           authorize @bug
-       else 
+       else
           authorize Bug
       end
     end
