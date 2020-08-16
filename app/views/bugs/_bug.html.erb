@@ -1,8 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-
-       
-
     <tr>
       <td><%= bug.title %></td>
       <td> <%= bug.deadline %></td>
@@ -43,11 +40,12 @@
            <%end%>
            
            <%elsif (bug.developer_id==nil) %>
-            <td>  <%= link_to 'Assign me', assign_dev_project_bug_path(@project, bug), method: :put,  class: "btn btn-default"  %></td>
-           <td> N/A</td>
+              <td>  <%= link_to 'Assign me', assign_dev_project_bug_path(@project, bug), method: :put,  class: "btn btn-default"  %></td>
+              <td> N/A</td>
+          
           <%else%>
-            <td>  <small>Already Assigned</small></td>
-            <td> N/A</td>
+              <td>  <small>Already Assigned</small></td>
+              <td> N/A</td>
      
 <%end%>
 <%end%>

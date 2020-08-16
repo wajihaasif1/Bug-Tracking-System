@@ -20,15 +20,17 @@ class BugsController < ApplicationController
   
   def new
      @bug = @project.bugs.new
-     authorize_project
+     #authorize_bug
   end
 
 
 
   def create
+
   
     @bug = @project.bugs.build(bug_params)
-    @bug.update(creator_id: current_user.id)
+    #@bug.update(creator_id: current_user.id)
+    @bug.creator_id= current_user.id
     @bug.save
 
     redirect_to project_path(@project)
@@ -54,27 +56,27 @@ class BugsController < ApplicationController
     @bug.destroy
     respond_to do |format|
       format.html { redirect_to project_url(@project), notice: 'bug was successfully destroyed.' }
-      format.json { head :no_content }
+      format.json  { head :no_content }
     end
   end
 
 
   def assign_dev
-    #byebug
-    @bug.update(developer_id: current_user.id)
+ 
+    @bug.update!(developer_id: current_user.id)
     
     redirect_to project_path(@project)
   end
 
 
   def remove_dev
-    #byebug
-    @bug.update(developer_id: nil)
+  
+    @bug.update!(developer_id: nil)
     redirect_to project_path(@project)
   end
 
   def started
-   #byebug
+  
     @bug.update_attributes(status: 'Started')
     redirect_to project_path(@project)
   end

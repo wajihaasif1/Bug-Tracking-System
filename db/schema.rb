@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2020_08_07_163155) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "bugs", force: :cascade do |t|
     t.string "title"
     t.datetime "deadline"
@@ -20,7 +23,7 @@ ActiveRecord::Schema.define(version: 2020_08_07_163155) do
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "project_id", null: false
+    t.bigint "project_id", null: false
     t.integer "creator_id"
     t.integer "developer_id"
     t.index ["project_id"], name: "index_bugs_on_project_id"
@@ -31,13 +34,13 @@ ActiveRecord::Schema.define(version: 2020_08_07_163155) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "creator_id", null: false
+    t.bigint "creator_id", null: false
     t.index ["creator_id"], name: "index_projects_on_creator_id"
   end
 
   create_table "user_projects", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "project_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_user_projects_on_project_id"

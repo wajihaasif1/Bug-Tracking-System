@@ -56,9 +56,21 @@
 <%end%>
 <%end%>
  		<br><br>
-    <strong id="show3">Toal bug in this Project: <%= @project.bugs.count %></strong>
-        <hr>
+    <div>
+    <span id="show3">Toal bug in this Project: <%= @project.bugs.count %></span>
+    <p id="show3s">   
+      <%if current_user.qa?%>
+             
+              <%= link_to ' Create Bug', new_project_bug_path(@project) , class: "btn btn-success glyphicon glyphicon-plus"%>
+             
+              
+               
 
+  <% end -%>
+</p>
+</div>
+   <hr>
+  
 <table class="table table-striped ">
     <thead>
       <tr>
@@ -91,16 +103,10 @@
         <div>
           <hr />
 
-            <%if current_user.qa?%>
-           <h2 id="show3">Want to add a bug? </h2>
-             <%= render 'bugs/form' %>
-<% end -%>
- 	
     <br>
     <h2 id="show3">Want to go back? 
     <%= link_to 'Back Button', projects_path , class: "btn btn-default"%>
     </h2>
-
 
 
 

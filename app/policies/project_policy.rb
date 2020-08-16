@@ -10,7 +10,6 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-  	#byebug
    record.creator_id ==user.id
   end
 

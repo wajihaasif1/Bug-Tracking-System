@@ -5,7 +5,6 @@ class BugPolicy < ApplicationPolicy
   end
 
   def show?
-
     (record.creator_id ==user.id) 
   end
 
@@ -16,6 +15,11 @@ class BugPolicy < ApplicationPolicy
 
  
   def assign_dev?
+   user.developer? 
+  end
+
+ 
+  def remove_dev?
    user.developer? 
   end
 
