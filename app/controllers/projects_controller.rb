@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy, :add_user, :remove_user]
   append_before_action :authorize_project,  except: [:index, :new, :create]
-  after_action :verify_policy_scope, only: :index
+  after_action :verify_policy_scoped, only: :index
 
   def index
     @projects = policy_scope(Project)
