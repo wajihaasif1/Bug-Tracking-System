@@ -2,19 +2,18 @@
 
 <p>
   <strong id="show1b">Title:</strong>
- <small id="show2b"> <%= @bug.title %></small>
+  <small id="show2b"> <%= @bug.title %></small>
 </p>
 
 <p>
   <strong id="show1b">Deadline:</strong>
- <small id="show2b"> <%= @bug.deadline %></small>
+  <small id="show2b"> <%= @bug.deadline %></small>
 </p>
 
 <p>
   <strong id="show1b">Screenshot:</strong>
- <small id="show2b"><%= image_tag(@bug.screenshot.url(:thumb), alt: 'Image') if @bug.screenshot? %></small>
+  <small id="show2b"><%= image_tag(@bug.screenshot.url(:thumb), alt: 'Image') if @bug.screenshot? %></small>
 </p>
-
 
 <p>
   <strong id="show1b">Type:</strong>
@@ -26,11 +25,7 @@
   <small id="show2b"><%= @bug.status %></small>
 </p>
 
+<%= link_to ' Back', project_path(@project) ,class: "btn btn-info   glyphicon glyphicon-arrow-left "%>
 
-	
-    <%= link_to ' Destroy', (@project), method: :delete, data: { confirm: 'Are you sure?' } ,class: "btn btn-danger glyphicon glyphicon-remove "%> |
- 	<%= link_to ' Back', project_path ,class: "btn btn-info   glyphicon glyphicon-arrow-left "%>
 
- 	
 
- 		

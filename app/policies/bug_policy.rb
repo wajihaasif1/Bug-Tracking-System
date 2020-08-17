@@ -1,32 +1,28 @@
 class BugPolicy < ApplicationPolicy
-
   def create?
     user.qa?
   end
 
   def show?
-    (record.creator_id ==user.id) 
+    (record.creator_id == user.id)
   end
-
 
   def destroy?
     show?
   end
 
- 
   def assign_dev?
-   user.developer? 
+    user.developer?
   end
 
- 
   def remove_dev?
-   user.developer? 
+    user.developer?
   end
 
   def started?
-   	(user.developer?) && (record.developer_id ==user.id)
+    user.developer? && record.developer_id == user.id
   end
-  
+
   def done?
     started?
   end
@@ -40,12 +36,7 @@ class BugPolicy < ApplicationPolicy
     end
 
     def resolve
-      	scope.all
-         
+      scope.all
     end
   end
-
-
-
-
 end
