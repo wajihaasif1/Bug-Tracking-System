@@ -11,7 +11,7 @@
 
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-    
+
   </head>
 
   <body>
@@ -22,22 +22,18 @@
         </div>
         <nav class="collapse navbar-collapse navbar-ex1-collapse">
           <% if user_signed_in? %>
-              <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right">
             <%if current_user.manager?%>
-          
               <li><%= link_to "Submit New Link", new_project_path %></li>
-              <%end%>
+            <%end%>
               <li><%= link_to "Account", edit_user_registration_path %></li>
-             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+              <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
             </ul>
-          
           <% else %>
-          
-              <ul  class="nav navbar-nav pull-right">
-                <li><%= link_to "Sign Up", new_user_registration_path %></li>
-                <li><%= link_to "Sign In", new_user_session_path%></li>
-              </ul>
-          
+            <ul  class="nav navbar-nav pull-right">
+              <li><%= link_to "Sign Up", new_user_registration_path %></li>
+              <li><%= link_to "Sign In", new_user_session_path%></li>
+            </ul>
           <% end %>
 
       </div>
@@ -46,7 +42,7 @@
 
 <div id="content" class="col-md-9 center-block">
    <%= yield %>
- </div>
+</div>
 
   </body>
 </html>
