@@ -1,25 +1,22 @@
 class ProjectPolicy < ApplicationPolicy
-
   def create?
     user.manager?
   end
 
   def show?
-
-    (record.creator_id ==user.id) ||  ( ((user.qa? )|| (user.developer?)) && (user.projects.pluck(:id).include?(record.id)))
+    record.creator_id == user.id ||  ((user.qa? || user.developer?) && (user.projects.pluck(:id).include?(record.id)))
   end
 
   def update?
-   record.creator_id ==user.id
+   record.creator_id == user.id
   end
-
 
   def destroy?
     update?
   end
 
   def edit?
-   	update?
+    update?
   end
 
   def add_user?
@@ -27,9 +24,8 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def remove_user?
-   	update?
+    update?
   end
-  
 
   class Scope
     attr_reader :user, :scope
@@ -41,17 +37,12 @@ class ProjectPolicy < ApplicationPolicy
 
     def resolve
       if user.manager?
-      	scope.where(creator_id: user.id)
+        scope.where(creator_id: user.id)
       elsif user.qa?
-      	scope.all
+        scope.all
       elsif user.developer?
         scope = @user.projects
-          
-      end   
+      end
     end
   end
-
-
-
-
 end

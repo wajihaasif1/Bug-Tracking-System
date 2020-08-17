@@ -1,10 +1,10 @@
 <p id="notice"><%= notice %></p>
 <div class="page-header"></div>
+
 <p>
   <strong id="show1">Title:</strong>
- <br>
- <small id="show2"> <%= @project.title %></small>
-
+  <br>
+  <small id="show2"> <%= @project.title %></small>
 </p>
 
 <p>
@@ -14,102 +14,74 @@
 </p>
 <br>
 
+<%if current_user.manager? %>
+  <%= link_to ' Edit', edit_project_path(@project), class: "btn btn-primary glyphicon glyphicon-edit" %>
+  <%= link_to ' Destroy', @project, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger glyphicon glyphicon-remove"  %>
+  <br> <br>
 
+  <h2 id="show3">Want to add users to your project? </h2>
+  <br><br><strong id="show1">DEVELOPERS:</strong>
+  <% @users.each do |user| %>
+    <%if user.developer? %>
 
-  <%if current_user.manager? %>
-		<%= link_to ' Edit', edit_project_path(@project), class: "btn btn-primary glyphicon glyphicon-edit" %> 
-    <%= link_to ' Destroy', @project, method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger glyphicon glyphicon-remove"  %> 
+      <small id="show4"> Name: <%=user.name%> </small>
+      <% if @project.users.exists? (user.id) %>
+        <%= link_to 'Remove user', remove_user_project_path(@project, user_id:user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger"  %><br>
+ 		  <% else %>
+ 		    <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put , class: "btn btn-success"%>
+ 		  <%end%>
+ 	  <%end%><br>
+  <%end%>
 
- <br> <br>
-<h2 id="show3">Want to add users to your project? </h2>
- 		  <br><br><strong id="show1">DEVELOPERS:</strong>
- 		 <% @users.each do |user| %>
- 		   <%if user.developer? %>
- 		      <small id="show4"> Name: <%=user.name%> </small>
- 		       <% if @project.users.exists? (user.id) %>
- 		          <%= link_to 'Remove user', remove_user_project_path(@project, user_id:user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger"  %>
- 		         <br>
- 		       <% else %>
- 		          <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put , class: "btn btn-success"%>
- 		       <%end%> 
- 		
-         <%end%>
-		
-		    <br>  
- 		<%end%>
-     
-
-
-     <strong id="show1">QA:</strong>
-    <% @users.each do |user| %>
-        <%if user.qa? %>
-          
-        <br>
-       <small id="show4"> Name: <%=user.name%> </small>
-          <% if @project.users.exists? (user.id) %>
-           <%= link_to 'Remove user', remove_user_project_path(@project, user_id:user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger"  %>
-           <br>
-         <% else %>
-            <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put,class: "btn btn-success" %>
-          <%end%> 
+  <strong id="show1">QA:</strong>
+  <% @users.each do |user| %>
+    <%if user.qa? %>
+      <br><small id="show4"> Name: <%=user.name%> </small>
+        <% if @project.users.exists? (user.id) %>
+          <%= link_to 'Remove user', remove_user_project_path(@project, user_id:user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger"  %><br>
+        <% else %>
+          <%= link_to 'Add user', add_user_project_path(@project, user_id:user.id), method: :put,class: "btn btn-success" %>
         <%end%>
-<%end%>
-<%end%>
- 		<br><br>
-    <div>
-    <span id="show3">Toal bug in this Project: <%= @project.bugs.count %></span>
-    <p id="show3s">   
-      <%if current_user.qa?%>
-             
-              <%= link_to ' Create Bug', new_project_bug_path(@project) , class: "btn btn-success glyphicon glyphicon-plus"%>
-             
-              
-               
+    <%end%>
+  <%end%>
+<%end%> <br><br>
 
-  <% end -%>
-</p>
-</div>
-   <hr>
-  
+<div>
+  <span id="show3">Toal bug in this Project: <%= @project.bugs.count %></span>
+  <p id="show3s">
+  <%if current_user.qa?%>
+    <%= link_to ' Create Bug', new_project_bug_path(@project) , class: "btn btn-success glyphicon glyphicon-plus"%>
+  <% end -%></p>
+</div><hr>
+
 <table class="table table-striped ">
-    <thead>
-      <tr>
-        <th scope="col" id="show5">TITLE</th>
-        <th scope="col" id="show5">DEADLINE</th>
-        <th scope="col" id="show5">SCREENSHOT</th>
-        <th scope="col" id="show5">TYPE</th>
-        <th scope="col" id="show5">STATUS</th>
-        <%if current_user.qa?%>
-          <th scope="col" id="show5">SHOW</th>
-          <th scope="col" id="show5">DESTROY</th>
-          <th scope="col" id="show5">Created by</th>
-        <% end -%>
-        
-        <%if current_user.developer?%>
-         
-            <th scope="col" id="show5">ASSIGN/UNASSIGNED</th>
+  <thead>
+    <tr>
+      <th scope="col" id="show5">TITLE</th>
+      <th scope="col" id="show5">DEADLINE</th>
+      <th scope="col" id="show5">SCREENSHOT</th>
+      <th scope="col" id="show5">TYPE</th>
+      <th scope="col" id="show5">STATUS</th>
 
-            <th scope="col" id="show5">ACTION</th>
-          
-        <% end -%>
-      </tr>
+      <%if current_user.qa?%>
+        <th scope="col" id="show5">SHOW</th>
+        <th scope="col" id="show5">DESTROY</th>
+        <th scope="col" id="show5">Created by</th>
+      <% end -%>
+
+      <%if current_user.developer?%>
+        <th scope="col" id="show5">ASSIGN/UNASSIGNED</th>
+        <th scope="col" id="show5">ACTION</th>
+      <% end -%>
+    </tr>
   </thead>
-   
-   <tbody>
-        <%= render @project.bugs %>
+  <tbody>
+    <%= render @project.bugs %>
    </tbody>
 </table>
 
-        <div>
-          <hr />
-
-    <br>
-    <h2 id="show3">Want to go back? 
-    <%= link_to 'Back Button', projects_path , class: "btn btn-default"%>
-    </h2>
-
-
-
-
-
-
+<div><hr><br>
+  <h2 id="show3">Want to go back?
+  <%= link_to 'Back Button', projects_path , class: "btn btn-default"%>
+  </h2>
+</div>

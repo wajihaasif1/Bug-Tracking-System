@@ -1,143 +1,85 @@
 class ProjectsController < ApplicationController
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :add_user, :remove_user]
+  append_before_action :authorize_project,  except: [:index, :new, :create]
+  after_action :verify_policy_scope, only: :index
 
-    before_action :set_project, only: [:show, :edit, :update, :destroy, :add_user, :remove_user]
-    #before_action :authenticate_user!
-    append_before_action :authorize_project,  except: [:index, :new, :create]
-    #after_action :verify_policy_scope, only: :index
+  def index
+    @projects = policy_scope(Project)
+  end
 
+  def show
+    @users = User.all
+  end
 
-    # GET /projects
-    # GET /projects.json
-  
-    def index
-      @projects = policy_scope(Project)
-      #@projects = Project.all
+  def new
+    @project = Project.new
 
+    authorize_project
+  end
+
+  def create
+    @project = current_user.created_projects.build(project_params)
+
+    authorize @project
+
+    if @project.save
+      redirect_to @project, notice: 'Project was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  def update
+    if @project.update(project_params)
+      redirect_to @project, notice: 'Project was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @project.destroy
+
+    redirect_to projects_url, notice: 'Project was successfully destroyed.'
+  end
+
+  def add_user
+    @user = User.find(params[:user_id])
+    @project.users << @user
+
+    redirect_to project_path(@project)
+  end
+
+  def remove_user
+    @user = User.find(params[:user_id])
+
+    @bugs = @project.bugs.where(developer_id: @user.id)
+
+    @bugs.each do |b|
+      b.developer_id = nil
+      b.save
     end
 
-    # GET /projects/1
-    # GET /projects/1.json
-    def show
-      #@project = Project.find(params[:id])
-      #@users =User.where.not(id: @project.users.ids)
-      #@project.users << @users
-      @users=User.all
-    end
+    @project.users.destroy(@user)
 
-    # GET /projects/new
-    def new
-      @project = Project.new
-      # @project = current_user.created_projects.build
-      #  respond_to do |format|
-      # format.html {redirect_to project_path}
-      # format.js
-    #end
-      authorize_project
-    end
-
-    # GET /projects/1/edit
-    def edit
-
-    end
-
-    # POST /projects
-    # POST /projects.json
-    def create
-      #@project = current_user.projects.new(project_params)
-      @project = current_user.created_projects.build(project_params)
-      #@project = current_user.build(project_params)
-      #@project.user=current_user.id
-      #@project = Project.new(project_params)
-      authorize @project
-        respond_to do |format|
-            if @project.save
-            format.html { redirect_to @project, notice: 'Project was successfully created.' }
-            format.json { render :show, status: :created, location: @project }
-          else
-            format.html { render :new }
-            format.json { render json: @project.errors, status: :unprocessable_entity }
-          end
-        end
-    end
-
-    # PATCH/PUT /projects/1
-    # PATCH/PUT /projects/1.json
-    def update
-      respond_to do |format|
-        if @project.update(project_params)
-          format.html { redirect_to @project, notice: 'Project was successfully updated.' }
-          format.json { render :show, status: :ok, location: @project }
-        else
-          format.html { render :edit }
-          format.json { render json: @project.errors, status: :unprocessable_entity }
-        end
-      end
-    end
-
-      
-    # DELETE /projects/1
-    # DELETE /projects/1.json
-    def destroy
-      @project.destroy
-      respond_to do |format|
-        format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
-        format.json { head :no_content }
-      end
-    end
-
-
-
-    def add_user
-      #@project = Project.find(params[:id])
-      @user= User.find(params[:user_id])
-      @project.users << @user
-      redirect_to (request.referrer)
-      #authorize @project
-    end
-  
-
-    def remove_user
-      @project = Project.find(params[:id])
-      @user= User.find(params[:user_id])
-
-      #@bug = Bug.find(params[:id])
-     
-      @bugs=@project.bugs.where(developer_id: @user.id)
-
-      @bugs.each do |b|
-        b.developer_id=nil
-        b.save
-      end
-      
-
-
-      @project.users.destroy(@user)
-      redirect_to (request.referrer)
-    end
-      
+    redirect_to project_path(@project)
+  end
 
   private
-   
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params[:id])
-      #@project = current_user.created_projects.find_by(params[:id])
+
+  def set_project
+    @project = Project.find(params[:id])
+  end
+
+  def project_params
+    params.require(:project).permit(:title, :description)
+  end
+
+  def authorize_project
+    if @project.present?
+      authorize @project
+    else
+      authorize Project
     end
-
-
-    # Only allow a list of trusted parameters through.
-    def project_params
-      params.require(:project).permit(:title, :description)
-    end
-    
-
-    def authorize_project
-       if @project.present?
-          authorize @project
-       else 
-          authorize Project
-       end
-    end
-  
-
+  end
 end

@@ -1,21 +1,18 @@
 <p id="notice"><%= notice %></p>
 <% if user_signed_in? %>
-
-<h1 id="h1_index">All Projects</h1>
-
-
-    <% @projects.each do |project| %>
+  <h1 id="h1_index">All Projects</h1>
+  <% @projects.each do |project| %>
     <hr>
-       <div class="project row clearfix">
-        <h2>
-          <%= link_to project.title, project%><br>
-          <small class="author">Submitted <%=time_ago_in_words(project.created_at) %> </small>
-          <br>
-          <small class="author">Total bugs in this project: <%= project.bugs.count%> </small>
-        </h2>
-</div>
 
-    <% end %>
+    <div class="project row clearfix">
+    <h2>
+      <%= link_to project.title, project%><br>
+      <small class="author">Submitted <%=time_ago_in_words(project.created_at) %> </small>
+      <br>
+      <small class="author">Total bugs in this project: <%= project.bugs.count%> </small>
+    </h2>
+  </div>
 
+  <% end %>
 <%end%>
 
